@@ -28,6 +28,19 @@ public class AlunoService {
         return aluno.orElseThrow(() -> new RuntimeException("Aluno"+ matricula +"não encontrado"));
     }
 
+    public Aluno getAlunoByMatriculaAndSenha(String matricula, String senha){
+        Optional<Aluno> aluno = Optional.ofNullable(this.alunoReposiroty.findAlunoByMatriculaAndSenha(matricula, senha));
+
+        return aluno.orElseThrow(() -> new RuntimeException("Aluno"+ matricula +"não encontrado"));
+    }
+
+
+    public Aluno getAlunoById(Long id){
+        Optional<Aluno> aluno = Optional.ofNullable(this.alunoReposiroty.findAlunoById(id));
+
+        return aluno.orElseThrow(() -> new RuntimeException("Aluno"+ id +"não encontrado"));
+    }
+
     @Transactional
     public Aluno saveAluno(AlunoDTO alunoDTO){
         Aluno aluno = new Aluno();
@@ -35,6 +48,23 @@ public class AlunoService {
         aluno.setNome(alunoDTO.getNome());
         aluno.setSenha(alunoDTO.getSenha());
         return this.alunoReposiroty.save(aluno);
+    }
+
+    @Transactional
+    public Aluno updateAluno(long Id, AlunoDTO alunoDTO) {
+        Aluno aluno = alunoReposiroty.findAlunoById(Id);
+        aluno.setSenha(alunoDTO.getSenha());
+
+        return this.alunoReposiroty.save(aluno);
+    }
+
+    @Transactional
+    public void deleteAluno(Long id){
+        try {
+            this.alunoReposiroty.deleteById(id);
+        }catch (Exception e) {
+            throw new RuntimeException("Aluno matriculado em uma disciplina, não pode ser deletado.");
+        }
     }
 
 
