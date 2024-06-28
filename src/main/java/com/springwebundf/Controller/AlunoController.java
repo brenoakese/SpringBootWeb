@@ -48,11 +48,16 @@ public class AlunoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Aluno> login(@RequestBody AlunoDTO alunoDTO){
-        Aluno aluno = this.alunoService.getAlunoByMatriculaAndSenha(alunoDTO.getMatricula(), alunoDTO.getSenha());
+    @GetMapping("/login")
+    public ResponseEntity<Aluno> login(@RequestParam  String matricula, @RequestParam String senha){
+        Aluno aluno = this.alunoService.getAlunoByMatriculaAndSenha(matricula, senha);
         aluno.setSenha(null);
         return ResponseEntity.ok().body(aluno);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Iterable<Aluno>> getAllAlunos(){
+        return ResponseEntity.ok().body(this.alunoService.findAllAlunos());
     }
 
 

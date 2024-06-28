@@ -35,6 +35,8 @@ public class AlunoService {
     }
 
 
+
+
     public Aluno getAlunoById(Long id){
         Optional<Aluno> aluno = Optional.ofNullable(this.alunoReposiroty.findAlunoById(id));
 
@@ -68,4 +70,7 @@ public class AlunoService {
     }
 
 
+    public Iterable<Aluno> findAllAlunos() {
+        return this.alunoReposiroty.findAll();
+    }
 }
